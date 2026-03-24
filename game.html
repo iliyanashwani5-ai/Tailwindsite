@@ -5,168 +5,119 @@
 <script src="https://cdn.tailwindcss.com"></script>
 </head>
 
-<body class="bg-gray-900 text-white">
+<body class="bg-gray-900 text-white text-center">
 
-<h1 class="text-4xl font-bold text-yellow-400">
+<h1 class="text-4xl font-bold text-yellow-400 mt-6">
 Ancient Temple Escape
 </h1>
 
 <p class="mt-4 text-gray-300">
-You are trapped inside an ancient temple. Solve the puzzles and find the way out.
+Solve puzzles and escape the temple!
 </p>
 
-<div>
-<a class="mr-4 hover:text-yellow-400">Home</a>
-<a class="mr-4 hover:text-yellow-400">Levels</a>
-<a class="hover:text-yellow-400">Rules</a>
-</div>
 
-</div>
-</nav>
+<div class="mt-10">
 
-
-<section class="py-10">
-<div class="container mx-auto text-center">
-
-<h2 class="text-2xl font-bold text-yellow-400">About This Game</h2>
-
-
-<section>
-<div class="container mx-auto px-6">
-Content here
-</div>
-</section> 
-
-
-<section class="py-16 bg-gray-800">
-
-<div class="container mx-auto px-6">
-
-<h2 class="text-3xl font-bold text-yellow-400 text-center mb-10">
-Temple Levels
+<h2 id="levelTitle" class="text-2xl text-yellow-400 mb-4">
+Level 1: Temple Entrance
 </h2>
 
-<div class="grid md:grid-cols-3 gap-6">
-
-<!-- Level 1 -->
-<div class="bg-gray-900 p-6 rounded text-center">
-<h3 class="text-xl font-bold mb-2">Level 1</h3>
-<p class="text-gray-300">Temple Entrance</p>
-<p class="text-sm text-gray-400 mt-2">
-Solve the first riddle to enter the temple.
-</p>
-</div>
-
-<!-- Level 2 -->
-<div class="bg-gray-900 p-6 rounded text-center">
-<h3 class="text-xl font-bold mb-2">Level 2</h3>
-<p class="text-gray-300">Hidden Chamber</p>
-<p class="text-sm text-gray-400 mt-2">
-Find the secret clue hidden in the chamber.
-</p>
-</div>
-
-<!-- Level 3 -->
-<div class="bg-gray-900 p-6 rounded text-center">
-<h3 class="text-xl font-bold mb-2">Level 3</h3>
-<p class="text-gray-300">Final Puzzle</p>
-<p class="text-sm text-gray-400 mt-2">
-Solve the final puzzle to escape the temple.
-</p>
-</div>
-
-</div>
-
-</div>
-
-</section>
-
-
-<!-- Puzzle -->
-<section class="py-16">
-
-<div class="container mx-auto text-center">
-
-<h2 class="text-3xl text-yellow-400 mb-6">Puzzle</h2>
-
-<p class="text-gray-300">
+<p id="question" class="text-gray-300 mb-4">
 I speak without a mouth and hear without ears. What am I?
 </p>
 
-</div>
+<input id="answerInput" type="text"
+class="p-2 text-black rounded"
+placeholder="Enter your answer">
 
-</section>
+<br><br>
 
+<button onclick="checkAnswer()"
+class="bg-yellow-400 text-black px-4 py-2 rounded hover:bg-yellow-300">
+Submit Answer
+</button>
 
-<!-- Leaderboard -->
-<section class="py-16 bg-gray-800">
-
-<div class="container mx-auto text-center">
-
-<h2 class="text-3xl text-yellow-400 mb-6">Top Players</h2>
-
-<p>Alex - 1:45</p>
-<p>Maya - 2:10</p>
+<p id="result" class="mt-4 font-bold"></p>
 
 </div>
 
-</section>
 
-
-
-<section class="py-12">
-
-<div class="container mx-auto px-6 text-center">
-
-<h2 class="text-2xl font-bold text-yellow-400 mb-4">Need a Hint?</h2>
-
-<details class="bg-gray-800 p-4 rounded inline-block">
-<summary class="cursor-pointer font-bold">Click for Hint</summary>
-
-<p class="mt-3 text-gray-300">
-Think about something that repeats sound.
-</p>
-
-</details>
-
+<div class="mt-10 hidden" id="badgeSection">
+<h2 class="text-3xl text-yellow-400">🏆 Explorer Badge Unlocked!</h2>
 </div>
 
-</section>
 
-<section class="py-16">
-
-<div class="container mx-auto px-6 text-center">
-
-<h2 class="text-3xl font-bold text-yellow-400 mb-6">
-Explorer Badge
-</h2>
-
-<p class="text-gray-300 mb-4">
-Players who solve all puzzles earn the Temple Explorer badge.
-</p>
-
-<div class="text-5xl">
-🏆
+<div id="animation"
+class="hidden text-6xl mt-6 animate-bounce">
+✨
 </div>
 
-</div>
+<script>
 
-</section>
+let level = 1;
+
+const levels = [
+{
+question: "I speak without a mouth and hear without ears. What am I?",
+answer: "echo",
+title: "Level 1: Temple Entrance"
+},
+{
+question: "What has keys but can't open locks?",
+answer: "piano",
+title: "Level 2: Hidden Chamber"
+},
+{
+question: "What runs but never walks?",
+answer: "water",
+title: "Level 3: Final Puzzle"
+}
+];
+
+function checkAnswer() {
+let input = document.getElementById("answerInput").value.toLowerCase();
+let correct = levels[level - 1].answer;
+
+if (input === correct) {
+
+document.getElementById("result").innerText = "Correct! 🎉";
+document.getElementById("result").classList.add("text-green-400");
 
 
+let anim = document.getElementById("animation");
+anim.classList.remove("hidden");
 
-<footer class="bg-black py-6 text-center">
+setTimeout(() => {
+anim.classList.add("hidden");
+nextLevel();
+}, 1500);
 
-<div class="container mx-auto">
+} else {
+document.getElementById("result").innerText = "Try Again ❌";
+document.getElementById("result").classList.add("text-red-400");
+}
+}
 
-<p class="text-gray-400">
-Ancient Temple Escape Game
-</p>
+function nextLevel() {
+level++;
 
-</div>
+if (level > levels.length) {
+document.getElementById("levelTitle").innerText = "You Escaped! 🎉";
+document.getElementById("question").style.display = "none";
+document.getElementById("answerInput").style.display = "none";
 
-</footer>
+
+document.getElementById("badgeSection").classList.remove("hidden");
+
+} else {
+document.getElementById("levelTitle").innerText = levels[level - 1].title;
+document.getElementById("question").innerText = levels[level - 1].question;
+document.getElementById("answerInput").value = "";
+document.getElementById("result").innerText = "";
+}
+}
+
+</script>
 
 </body>
-</html>  
-
+</html>   
